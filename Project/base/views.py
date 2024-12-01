@@ -30,19 +30,22 @@ class CustomLoginView(LoginView):
 class RegisterPage(FormView):
     template_name = 'base/register.html'
     form_class = UserCreationForm
-    redirect_authenticated_user = True
-    success_url = reverse_lazy('tasks')
+    success_url = reverse_lazy('login')
 
     def form_valid(self, form):
-        user = form.save()
-        if user is not None:
-            login(self.request, user)
-        return super(RegisterPage, self).form_valid(form)
+        form.save()
+        return super().form_valid(form)
+    
+    
+    def form_invalid(self, form):
+        print("Form errors:", form.errors)
+        return super().form_invalid(form)
+    
 
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:
             return redirect('tasks')
-        return super(RegisterPage, self).get(*args, **kwargs)
+        return super().get(*args, **kwargs)
 
 
 class TaskList(LoginRequiredMixin, ListView):
