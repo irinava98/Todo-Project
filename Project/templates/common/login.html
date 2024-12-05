@@ -8,15 +8,18 @@
 <div class="card-body">
     <form method="POST">
         {% csrf_token %}
-        {{form.as_p}}
+        {{ form.non_field_errors }}
+        {{ form.username.errors }}
+        <label>{{ form.username.label }}</label>
+        {{ form.username }}
+        
+        {{ form.password.errors }}
+        <label>{{ form.password.label }}</label>
+        {{ form.password }}
+        
         <input class="button" type="submit" value="Login">
     </form>
     <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
 </div>
-
-
-
-
-
 
 {% endblock content %}
